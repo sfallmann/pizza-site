@@ -66,5 +66,30 @@ namespace PizzaSite.Persistence
 
             return dtoOrders;
         }
+
+        public static bool AddOrder(OrderDTO dtoOrder)
+        {
+            bool success = true;
+
+            try
+            {
+                Customer newCustomer = new Customer
+                {
+                    Name = dtoOrder.Customer.Name,
+                    Address = dtoOrder.Customer.Address,
+                    ZipCode = dtoOrder.Customer.ZipCode,
+                    Phone = dtoOrder.Customer.Phone
+                };
+
+
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+                success = false;
+            }
+
+            return success;
+        }
     }
 }

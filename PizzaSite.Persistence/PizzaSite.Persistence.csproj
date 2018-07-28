@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -11,6 +12,7 @@
     <AssemblyName>PizzaSite.Persistence</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -23,9 +25,10 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -51,6 +54,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -64,33 +70,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrdersRepositiry.cs" />
     <Compile Include="Customer.cs">
-      <DependentUpon>PizzaSiteEntities.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="CustomersRepository.cs" />
     <Compile Include="Item.cs">
-      <DependentUpon>PizzaSiteEntities.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Order.cs">
-      <DependentUpon>PizzaSiteEntities.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="OrdersRepositiry.cs" />
     <Compile Include="Order_Items.cs">
-      <DependentUpon>PizzaSiteEntities.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="PizzaSiteEntities.Context.cs">
+    <Compile Include="PizzaSiteDBEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PizzaSiteEntities.Context.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="PizzaSiteEntities.cs">
+    <Compile Include="PizzaSiteDBEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PizzaSiteEntities.tt</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="PizzaSiteEntities.Designer.cs">
+    <Compile Include="PizzaSiteDBEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PizzaSiteEntities.edmx</DependentUpon>
+      <DependentUpon>PizzaSiteDBEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -101,35 +108,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="PizzaSiteDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="PizzaSiteDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>PizzaSiteDB.mdf</DependentUpon>
-    </Content>
-    <Content Include="PizzaSiteEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>PizzaSiteEntities.Context.cs</LastGenOutput>
-      <DependentUpon>PizzaSiteEntities.edmx</DependentUpon>
-    </Content>
-    <Content Include="PizzaSiteEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PizzaSiteEntities.edmx</DependentUpon>
-      <LastGenOutput>PizzaSiteEntities.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="PizzaSiteEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PizzaSiteEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
+    <EntityDeploy Include="PizzaSiteDBEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PizzaSiteDBEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
     <None Include="packages.config" />
-    <None Include="PizzaSiteEntities.edmx.diagram">
-      <DependentUpon>PizzaSiteEntities.edmx</DependentUpon>
+    <None Include="PizzaSiteDBEntities.edmx.diagram">
+      <DependentUpon>PizzaSiteDBEntities.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -147,5 +133,23 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="PizzaSiteDBEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PizzaSiteDBEntities.edmx</DependentUpon>
+      <LastGenOutput>PizzaSiteDBEntities.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="PizzaSiteDBEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>PizzaSiteDBEntities.edmx</DependentUpon>
+      <LastGenOutput>PizzaSiteDBEntities.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
 </Project>
