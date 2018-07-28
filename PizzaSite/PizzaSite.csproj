@@ -90,6 +90,16 @@
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PizzaSite.Domain\PizzaSite.Domain.csproj">
+      <Project>{d826fe6f-181a-4a22-8514-af53cafe94f5}</Project>
+      <Name>PizzaSite.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PizzaSite.DTO\PizzaSite.DTO.csproj">
+      <Project>{662e3ec8-cc06-4fe6-bcd9-3bbb2fcf4599}</Project>
+      <Name>PizzaSite.DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
