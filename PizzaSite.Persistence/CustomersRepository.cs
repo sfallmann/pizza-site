@@ -8,12 +8,12 @@ using PizzaSite.DTO;
 
 namespace PizzaSite.Persistence
 {
-    public class CustomersRepository
+    public class CustomersRepository : Repository
     {
+      
         public static CustomerDTO AddCustomer(CustomerDTO dtoCustomer)
         {
-            PizzaSiteDBEntities db = new PizzaSiteDBEntities();
-
+           
             CustomerDTO customer = CustomersRepository.GetCustomerByName(dtoCustomer.Name);
 
             if (customer == null)
@@ -37,7 +37,6 @@ namespace PizzaSite.Persistence
 
         public static CustomerDTO GetCustomerByName(string name)
         {
-            PizzaSiteDBEntities db = new PizzaSiteDBEntities();
             Customer dbCustomer = db.Customers.FirstOrDefault((c) => name.ToUpper() == c.Name);
 
             return dbCustomer == null ? null :
@@ -51,8 +50,5 @@ namespace PizzaSite.Persistence
                 };
         }
     }
-
-
-
 
 }

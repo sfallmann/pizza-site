@@ -10,7 +10,7 @@ namespace PizzaSite.DTO
     public class OrderDTO
     {
         public int ID { get; set; }
-        public List<OrderItemDTO> Items { get; set; }
+        public ICollection<OrderItemDTO> Items { get; set; }
         public CustomerDTO Customer { get; set; }
         public decimal Total { get; set; }
         public string Status { get; set; }

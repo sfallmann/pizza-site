@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerDTO.cs" />
+    <Compile Include="ItemDTO.cs" />
     <Compile Include="OrderDTO.cs" />
     <Compile Include="OrderItemDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
