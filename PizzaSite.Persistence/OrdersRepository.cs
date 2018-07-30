@@ -11,7 +11,7 @@ namespace PizzaSite.Persistence
     public class OrdersRepository : Repository
     {
 
-        public static ICollection<OrderDTO> GetOrders()
+        public static IEnumerable<OrderDTO> GetOrders()
         {
 
             var dbOrders = db.Orders.Include("Order_Items");

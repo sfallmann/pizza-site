@@ -8,10 +8,13 @@ using System.Web.UI.WebControls;
 using PizzaSite.DTO;
 using PizzaSite.Domain;
 
+
 namespace PizzaSite
 {
+    
     public partial class Default : System.Web.UI.Page
     {
+        
         private class ListItem
         {
             public int ID { get; set; }
@@ -19,9 +22,9 @@ namespace PizzaSite
 
         }
 
-        private IEnumerable<ListItem> configureItemsDataSource(string category)
+        private IEnumerable<ListItem> ConfigureItemsDataSource(string category)
         {
-            return from i in Item.GetItems()
+            return from i in OrdersService.GetItems()
                              where i.Category == category
                              select new ListItem
                              {
@@ -30,28 +33,107 @@ namespace PizzaSite
                              };
         }
 
-        private void bindItemsToControl(string category, ListControl control, bool setSelected=false)
+        private void BindItemsToControl(string category, ListControl control, bool setSelected=false)
         {
-            var datasource = configureItemsDataSource(category);
+            var datasource = ConfigureItemsDataSource(category);
+
             control.DataSource = datasource;
             control.DataValueField = "ID";
             control.DataTextField = "DisplayField";
+
             if (setSelected)
                 control.SelectedValue = datasource.OrderBy((i) => i.ID).First().ID.ToString();
+
             control.DataBind();
 
         }
 
-        protected void Page_Load(object sender, EventArgs e)
+        private CustomerDTO MapInputToCustomer()
         {
-            bindItemsToControl("Toppings", toppingsCheckBoxList, true);
-            bindItemsToControl("Size", sizeDropDownList, true);
-            bindItemsToControl("Crust", crustDropDownList);
+            return new CustomerDTO
+            {
+                Name = nameTextBox.Text.Trim(' '),
+                Address = addressTextBox.Text.Trim(' '),
+                Phone = phoneTextBox.Text.Trim(' '),
+                ZipCode = zipCodeTextBox.Text.Trim(' ')
+            };
         }
 
-        protected void toppingsCheckBoxList_SelectedIndexChanged(object sender, EventArgs e)
+        private ItemDTO GetItemById(int id)
         {
+            return OrdersService.GetItems().Single((i) => i.ID == id);
+        }
 
+        private List<OrderItemDTO> MapSelectionsToOrderItemDTO(ListControl control)
+        {
+            List<OrderItemDTO> selectedItems = new List<OrderItemDTO>();
+
+            foreach(System.Web.UI.WebControls.ListItem item in control.Items)
+            {
+   
+                int value = Convert.ToInt32(item.Value);
+                ItemDTO dtoItem = GetItemById(Convert.ToInt32(value));
+
+                if (item.Selected)
+                {
+                    selectedItems.Add(
+                        new OrderItemDTO
+                        {
+                            Name = dtoItem.Name,
+                            Price = dtoItem.Price,
+                            Category = dtoItem.Category,
+                            Quantity = 1
+                        });
+                }
+
+            }
+            return selectedItems;
+        }
+
+        private OrderDTO MapOrderToSelections()
+        {
+            CustomerDTO customer = MapInputToCustomer();
+            List<OrderItemDTO> toppings = MapSelectionsToOrderItemDTO(toppingsCheckBoxList);
+            List<OrderItemDTO> crust = MapSelectionsToOrderItemDTO(crustDropDownList);
+            List<OrderItemDTO> size = MapSelectionsToOrderItemDTO(sizeDropDownList);
+            var items = new List<OrderItemDTO>().Concat(toppings).Concat(crust).Concat(size);
+
+            OrderDTO order = new OrderDTO
+            {
+                Customer = customer,
+                Items = new List<OrderItemDTO>()
+            };
+
+            foreach (var item in items)
+            {
+                
+                order.Items.Add(item);
+            }
+
+            return order;
+        }
+
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!Page.IsPostBack)
+            {
+                BindItemsToControl("Toppings", toppingsCheckBoxList);
+                BindItemsToControl("Size", sizeDropDownList, true);
+                BindItemsToControl("Crust", crustDropDownList, true);
+            }
+
+            UpdateTotal();
+        }
+
+        protected void UpdateTotal()
+        {
+            decimal total = OrdersService.CalculateTotal(MapOrderToSelections());
+            totalLabel.Text = String.Format("{0:C}", total);
+        }
+
+        protected void OrderButton_Click(object sender, EventArgs e)
+        {
+            //Server.Transfer("Page2.aspx", true);
         }
     }
 }
