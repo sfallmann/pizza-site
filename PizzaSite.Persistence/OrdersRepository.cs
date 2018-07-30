@@ -69,7 +69,8 @@ namespace PizzaSite.Persistence
             Order newOrder = new Order
             {
                 Status = "InProgress",
-                CustomerID = dtoCustomer.ID
+                CustomerID = dtoCustomer.ID,
+                Total = dtoOrder.Total
             };
 
             
@@ -83,7 +84,9 @@ namespace PizzaSite.Persistence
                 Order_Items orderItem = new Order_Items
                 {
                     Order = newOrder,
-                    ItemID = item.ID
+                    ItemID = dtoItem.ItemID,
+                    Price = dtoItem.Price,
+                    Quantity = dtoItem.Quantity                    
                 };
 
                 db.Order_Items.Add(orderItem);

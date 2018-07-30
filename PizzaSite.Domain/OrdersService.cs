@@ -26,5 +26,12 @@ namespace PizzaSite.Domain
         {
             return ItemsRepository.GetItems();
         }
+
+        public static void ProcessOrder(OrderDTO newOrder)
+        {
+            decimal total = CalculateTotal(newOrder);
+            newOrder.Total = total;
+            OrdersRepository.AddOrder(newOrder);
+        }
     }
 }

@@ -82,7 +82,8 @@ namespace PizzaSite
                             Name = dtoItem.Name,
                             Price = dtoItem.Price,
                             Category = dtoItem.Category,
-                            Quantity = 1
+                            Quantity = 1,
+                            ItemID = value
                         });
                 }
 
@@ -106,7 +107,6 @@ namespace PizzaSite
 
             foreach (var item in items)
             {
-                
                 order.Items.Add(item);
             }
 
@@ -133,7 +133,8 @@ namespace PizzaSite
 
         protected void OrderButton_Click(object sender, EventArgs e)
         {
-            //Server.Transfer("Page2.aspx", true);
+            OrdersService.ProcessOrder(MapOrderToSelections());
+            Server.Transfer("Success.aspx", true);
         }
     }
 }
