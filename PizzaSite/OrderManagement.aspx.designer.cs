@@ -13,13 +13,13 @@ namespace PizzaSite {
     public partial class OrderManagement {
         
         /// <summary>
-        /// form1 control.
+        /// order_management_form control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm order_management_form;
         
         /// <summary>
         /// OrdersGridView control.
