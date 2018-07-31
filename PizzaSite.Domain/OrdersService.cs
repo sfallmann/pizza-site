@@ -33,5 +33,15 @@ namespace PizzaSite.Domain
             newOrder.Total = total;
             OrdersRepository.AddOrder(newOrder);
         }
+
+        public static ICollection<OrderDTO> GetOrders()
+        {
+            return OrdersRepository.GetOrders();
+        }
+
+        public static void UpdateOrder(OrderDTO updatedOrder)
+        {
+            OrdersRepository.UpdateOrder(updatedOrder);
+        }
     }
 }

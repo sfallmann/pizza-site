@@ -11,7 +11,7 @@ namespace PizzaSite.Persistence
     public class OrdersRepository : Repository
     {
 
-        public static IEnumerable<OrderDTO> GetOrders()
+        public static ICollection<OrderDTO> GetOrders()
         {
 
             var dbOrders = db.Orders.Include("Order_Items");
@@ -32,8 +32,6 @@ namespace PizzaSite.Persistence
                     };
 
                 
-
-
                 List<OrderItemDTO> dtoOrderItems = new List<OrderItemDTO>();
 
                 foreach(var order_item in dbOrder.Order_Items)
@@ -53,7 +51,8 @@ namespace PizzaSite.Persistence
                     ID = dbOrder.ID,
                     Customer = dtoCustomer,
                     Items = dtoOrderItems,
-                    Status = dbOrder.Status
+                    Status = dbOrder.Status,
+                    Total = dbOrder.Total
                 });
    
             }
